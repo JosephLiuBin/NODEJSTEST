@@ -1,0 +1,18 @@
+namespace "NODEJSTEST"."tinyDB";
+using NODEJSTEST.tinyDB::tinyf.world;
+
+
+context tinyf{
+ 
+/*@@layout{"layoutInfo":{"x":170,"y":136.5}}*/
+entity world{
+ key continent : String(100);
+};
+
+/*@@layout{"layoutInfo":{"x":-108,"y":134.5}}*/
+entity country{
+ name : String(100);
+ partof : Association[0..1] to world;
+};
+
+};

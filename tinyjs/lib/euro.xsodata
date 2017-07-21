@@ -1,0 +1,3 @@
+service{
+"NODEJSTEST.tinyDB::tinyCV" as "euro" keys generate local "ID";
+}

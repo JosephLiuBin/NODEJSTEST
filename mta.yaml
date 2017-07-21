@@ -1,0 +1,45 @@
+ID: NODEJSTEST
+_schema-version: '2.0'
+version: 1.0.0
+modules:
+  - name: tinyDB
+    type: hdb
+    path: tinyDB
+    requires:
+      - name: hdi-container
+        properties:
+          TARGET_CONTAINER: ~{hdi-container-service}
+  - name: tinyjs
+    type: nodejs
+    path: tinyjs
+    provides:
+      - name: tinyjs_api
+        properties:
+          service_url: '${default-url}'
+    requires:
+      - name: tiny_uaa
+      - name: tinyDB
+      - name: hdi-container
+  - name: tinyui
+    type: html5
+    path: tinyui
+    requires:
+      - name: tiny_uaa
+      - name: tinyjs_api
+        group: destinations
+        properties:
+          name: tinyjs_be
+          url: ~{service_url}
+          forwardAuthToken: True #Ensure that the authentication token acquired at run time by the tinyui/ module is automatically forwarded to the tinyjs/ module
+
+resources:
+  - name: hdi-container
+    properties:
+      hdi-container-name: ${service-name}
+      hdi-container-service: '${service-name}'
+    type: com.sap.xs.hdi-container
+  - name: tiny_uaa
+    type: com.sap.xs.uaa
+    parameters:
+      path: ./xs-security.json #Configure the User Account and Authentication (UAA) service to use the new security configuration
+
